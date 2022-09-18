@@ -1,0 +1,11 @@
+CreateThread(Dr.Init)
+
+RegisterNetEvent("plouffe_drugs:plant_weed", Dr.PlantWeed)
+RegisterNetEvent("plouffe_drugs:water_weed", Dr.AddWater)
+RegisterNetEvent("plouffe_drugs:fert_weed", Dr.AddFert)
+RegisterNetEvent("plouffe_drugs:destroy_weed", Dr.DestroyPlant)
+RegisterNetEvent("plouffe_drugs:harvest_weed", Dr.HarvestWeed)
+RegisterNetEvent("plouffe_drugs:place_table", Dr.PlaceTable)
+RegisterNetEvent("plouffe_drugs:finished_cooking", Dr.FinishedCooking)
+RegisterNetEvent("plouffe_drugs:destroy_meth", Dr.DestroyTable)
+RegisterNetEvent("plouffe_drugs:loot_barrel", Dr.LootBarrel)
