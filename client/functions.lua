@@ -267,17 +267,29 @@ function Dr.AddWater(item)
     local ped = PlayerPedId()
     local pedCoords = GetEntityCoords(ped)
     local entity, netId = Dr.GetClosestPlant(pedCoords)
-
     if not netId then
         return
     end
-
-    if not Dr.water_items[item] or Utils:GetItemCount(item) < 1 then
+    if item and not Dr.water_items[item] or Utils:GetItemCount(item) < 1 then
         return Interface.Notifications.Show({
             style = "error",
             header = "Weed",
             message = Lang.missing_something
         })
+    elseif not item then
+        for k,v in pairs(Dr.water_items) do
+            if Utils:GetItemCount(k) > 1 then
+                item = k
+                break
+            end
+        end
+        if not item then
+            return Interface.Notifications.Show({
+                style = "error",
+                header = "Weed",
+                message = Lang.missing_something
+            })
+        end
     end
 
     TaskTurnPedToFaceEntity(ped, entity, 2000)
@@ -320,12 +332,27 @@ function Dr.AddFert(item)
         return
     end
 
-    if not Dr.fert_items[item] or Utils:GetItemCount(item) < 1 then
+    if item and not Dr.fert_items[item] or Utils:GetItemCount(item) < 1 then
         return Interface.Notifications.Show({
             style = "error",
             header = "Weed",
             message = Lang.missing_something
         })
+    elseif not item then
+        for k,v in pairs(Dr.fert_items) do
+            if Utils:GetItemCount(k) > 0 then
+                item = k
+                break
+            end
+        end
+
+        if not item then
+            return Interface.Notifications.Show({
+                style = "error",
+                header = "Weed",
+                message = Lang.missing_something
+            })
+        end
     end
 
     TaskTurnPedToFaceEntity(ped, entity, 2000)
