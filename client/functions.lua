@@ -28,7 +28,7 @@ local plant_types <const> = {
 }
 
 local function wake()
-    local list = Callback:Sync("plouffe_drugs:loadPlayer")
+    local list = Callback.Sync("plouffe_drugs:loadPlayer")
     for k,v in pairs(list) do
         Dr[k] = v
     end
@@ -165,7 +165,7 @@ function Dr:PlaceWeedPot()
 
     local ped = PlayerPedId()
     local offSet = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5, 0.0)
-    local object = Utils:CreateProp("bkr_prop_weed_01_small_01c", offSet, 0.0, true, false)
+    local object = Utils.CreateProp("bkr_prop_weed_01_small_01c", offSet, 0.0, true, false)
     local rotation = GetEntityRotation(object)
     local isCanceled = false
 
@@ -216,7 +216,7 @@ end
 
 function Dr.PlantWeed()
     for k,v in pairs(Dr.plants_items) do
-        if Utils:GetItemCount(k) < v then
+        if Utils.GetItemCount(k) < v then
             return Interface.Notifications.Show({
                 style = "error",
                 header = "Weed",
@@ -275,7 +275,7 @@ function Dr.AddWater(item)
     item = (type(item) == "table" and item.name) or (type(item) == "string" and item)
     if not item then
         for k,v in pairs(Dr.water_items) do
-            if Utils:GetItemCount(k) > 0 then
+            if Utils.GetItemCount(k) > 0 then
                 item = k
                 break
             end
@@ -337,7 +337,7 @@ function Dr.AddFert(item)
 
     if not item then
         for k,v in pairs(Dr.fert_items) do
-            if Utils:GetItemCount(k) > 0 then
+            if Utils.GetItemCount(k) > 0 then
                 item = k
                 break
             end
@@ -392,7 +392,7 @@ function Dr.WeedInteractionMenu()
         return
     end
 
-    local data = Callback:Sync("plouffe_drugs:get_plant_data", netId, Dr.auth)
+    local data = Callback.Sync("plouffe_drugs:get_plant_data", netId, Dr.auth)
 
     if not data then
         return
@@ -442,7 +442,7 @@ end
 
 function Dr.ShowAdvancedPlantData(netId)
     Wait(100)
-    local data, time_data = Callback:Sync("plouffe_drugs:get_advanced_plant_data", netId, Dr.auth)
+    local data, time_data = Callback.Sync("plouffe_drugs:get_advanced_plant_data", netId, Dr.auth)
     if not data then
         return
     end
@@ -595,7 +595,7 @@ exports("OnWeed", Dr.OnWeed)
 
 function Dr.PlaceTable()
     for k,v in pairs(Dr.table_items) do
-        if Utils:GetItemCount(k) < v then
+        if Utils.GetItemCount(k) < v then
             return Interface.Notifications.Show({
                 style = "error",
                 header = "Meth",
@@ -665,7 +665,7 @@ function Dr:PlaceMethTable()
 
     local ped = PlayerPedId()
     local offSet = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5, 0.0)
-    local object = Utils:CreateProp("v_ret_ml_tableb", offSet, 0.0, true, false)
+    local object = Utils.CreateProp("v_ret_ml_tableb", offSet, 0.0, true, false)
     local rotation = GetEntityRotation(object)
     local isCanceled = false
 
@@ -801,7 +801,7 @@ function Dr.MethInteractionMenu()
         return
     end
 
-    local data = Callback:Sync("plouffe_drugs:get_table_data", netId, Dr.auth)
+    local data = Callback.Sync("plouffe_drugs:get_table_data", netId, Dr.auth)
 
     if not data then
         return
@@ -913,7 +913,7 @@ function Dr:RequestCokeDrop()
         return
     end
 
-    local data, reason = Callback:Sync("plouffe_drugs:generate_plane_data", Dr.auth)
+    local data, reason = Callback.Sync("plouffe_drugs:generate_plane_data", Dr.auth)
     if not data then
         return Interface.Notifications.Show({
             style = "info",

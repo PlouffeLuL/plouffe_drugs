@@ -223,7 +223,7 @@ end
 function Dr.PlantWeed(position, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:plant_weed") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:plant_weed") then
         return
     end
 
@@ -253,7 +253,7 @@ function Dr.PlantWeed(position, auth)
             local coords = GetEntityCoords(entity)
 
             if #(coords - position.coords) < 1 then
-                return Utils:Notify(playerId, {
+                return Utils.Notify(playerId, {
                     style = "error",
                     header = "Weed",
                     message = Lang.plant_to_close
@@ -406,7 +406,7 @@ end
 function Dr.AddWater(netId, item, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:water_weed") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:water_weed") then
         return
     end
 
@@ -420,7 +420,7 @@ end
 function Dr.AddFert(netId, item, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:fert_weed") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:fert_weed") then
         return
     end
 
@@ -434,7 +434,7 @@ end
 function Dr.DestroyPlant(netId, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:destroy_weed") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:destroy_weed") then
         return
     end
 
@@ -453,7 +453,7 @@ end
 function Dr.HarvestWeed(netId, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:harvest_weed") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:harvest_weed") then
         return
     end
 
@@ -475,30 +475,30 @@ function Dr.HarvestWeed(netId, auth)
     Dr.weed_plants[netId] = nil
 end
 
-Callback:RegisterServerCallback("plouffe_drugs:loadPlayer", function(playerId, cb)
-    local registred, key = Auth:Register(playerId)
+Callback.Register("plouffe_drugs:loadPlayer", function(playerId)
+    local registred, key = Auth.Register(playerId)
 
     if not registred then
-        return DropPlayer(" "), cb()
+        return DropPlayer(" ")
     end
 
     while not Server.ready do
         Wait(100)
     end
 
-    cb(Dr:GetData(key))
+    return Dr:GetData(key)
 end)
 
-Callback:RegisterServerCallback("plouffe_drugs:get_plant_data", function(playerId, cb, netId, auth)
-    if not Auth:Validate(playerId, auth) or not Auth:Events(playerId,"plouffe_drugs:get_plant_data") then
+Callback.Register("plouffe_drugs:get_plant_data", function(playerId, netId, auth)
+    if not Auth.Validate(playerId, auth) or not Auth.Events(playerId,"plouffe_drugs:get_plant_data") then
         return
     end
 
-    cb(Dr.weed_plants[netId])
+    return Dr.weed_plants[netId]
 end)
 
-Callback:RegisterServerCallback("plouffe_drugs:get_advanced_plant_data", function(playerId, cb, netId, auth)
-    if not Auth:Validate(playerId, auth) or not Auth:Events(playerId,"plouffe_drugs:get_plant_data") then
+Callback.Register("plouffe_drugs:get_advanced_plant_data", function(playerId, netId, auth)
+    if not Auth.Validate(playerId, auth) or not Auth.Events(playerId,"plouffe_drugs:get_plant_data") then
         return
     end
 
@@ -511,13 +511,13 @@ Callback:RegisterServerCallback("plouffe_drugs:get_advanced_plant_data", functio
     data.time_passed = ("%s : Days, %s : Hours, %s : Minutes, %s : Seconds"):format(date.day, date.hour, date.min, date.sec)
     data.growth_time = ("%s : Days, %s : Hours, %s : Minutes, %s : Seconds"):format(date2.day, date2.hour, date2.min, date2.sec)
 
-    cb(Dr.weed_plants[netId], data)
+    return Dr.weed_plants[netId], data
 end)
 
 function Dr.PlaceTable(position, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:place_table") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:place_table") then
         return
     end
 
@@ -547,7 +547,7 @@ function Dr.PlaceTable(position, auth)
             local coords = GetEntityCoords(entity)
 
             if #(coords - position.coords) < 1 then
-                return Utils:Notify(playerId, {
+                return Utils.Notify(playerId, {
                     style = "error",
                     header = "Weed",
                     message = Lang.table_to_clode
@@ -612,18 +612,18 @@ function Dr:RefreshTables()
     self.meth_tables = data
 end
 
-Callback:RegisterServerCallback("plouffe_drugs:get_table_data", function(playerId, cb, netId, auth)
-    if not Auth:Validate(playerId, auth) or not Auth:Events(playerId,"plouffe_drugs:get_table_data") then
+Callback.Register("plouffe_drugs:get_table_data", function(playerId, netId, auth)
+    if not Auth.Validate(playerId, auth) or not Auth.Events(playerId,"plouffe_drugs:get_table_data") then
         return
     end
 
-    cb(Dr.meth_tables[netId])
+    return Dr.meth_tables[netId]
 end)
 
 function Dr.FinishedCooking(netId, succes, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:finished_cooking") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:finished_cooking") then
         return
     end
 
@@ -673,7 +673,7 @@ end
 function Dr.DestroyTable(netId, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:destroy_meth") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:destroy_meth") then
         return
     end
 
@@ -793,7 +793,7 @@ end
 function Dr.LootBarrel(netId, auth)
     local playerId = source
 
-    if not Auth:Validate(playerId,auth) or not Auth:Events(playerId,"plouffe_drugs:destroy_meth") then
+    if not Auth.Validate(playerId,auth) or not Auth.Events(playerId,"plouffe_drugs:destroy_meth") then
         return
     end
 
@@ -818,12 +818,12 @@ function Dr.LootBarrel(netId, auth)
     Inventory.AddItem(playerId, Dr.coke_item, Dr.coke_amount)
 end
 
-Callback:RegisterServerCallback("plouffe_drugs:generate_plane_data", function(playerId, cb, auth)
-    if not Auth:Validate(playerId, auth) or not Auth:Events(playerId,"plouffe_drugs:generate_plane_data") then
+Callback.Register("plouffe_drugs:generate_plane_data", function(playerId, auth)
+    if not Auth.Validate(playerId, auth) or not Auth.Events(playerId,"plouffe_drugs:generate_plane_data") then
         return
     end
 
-    cb(Dr.RequestAirDrop(playerId))
+    return Dr.RequestAirDrop(playerId)
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)
