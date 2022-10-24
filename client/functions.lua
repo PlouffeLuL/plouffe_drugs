@@ -941,6 +941,10 @@ function Dr:RequestCokeDrop()
 
     FreezeEntityPosition(vehicle, false)
 
+    pcall(function ()
+        exports.plouffe_alerts:SendAlert("IllegalActivity")
+    end)
+
     TriggerEvent("plouffe_drugs:on_airdrop")
 end
 
